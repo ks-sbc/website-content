@@ -1,0 +1,27 @@
+# Obsidian configuration
+.obsidian/
+
+# Obsidian plugins (if you don't want to track them)
+.obsidian/plugins/
+
+# Obsidian workspace (changes frequently)
+.obsidian/workspace*
+
+# Temporary files
+.trash/
+.DS_Store
+Thumbs.db
+*.temp
+*.tmp
+
+# Private notes pattern (if you have a specific naming convention)
+*.private.md
+*-private
+
+# Drafts
+drafts/
+
+# Personal notes
+personal/
+internal/
+!internal/project_documentation/
