@@ -40,21 +40,20 @@ Content visibility is managed through:
 
 ### Non-Technical Windows Users
 
-A PowerShell script is available to automate the setup process. See the instructions in:
+For team members using Windows who prefer not to use the command line directly, we provide PowerShell scripts to simplify setup and syncing:
+
+1.  **`ObsidianSetup.ps1`**: This script automates the initial setup. It checks for prerequisites (like Git), clones the necessary repositories (including this content repo and attempting submodules), configures Git settings, and creates a sync script with a desktop shortcut.
+2.  **`Obsidian-Sync.ps1`** (created by the setup script): This script, accessible via a desktop shortcut after running the setup, handles fetching updates from the remote repositories and pushing your local changes.
+
+**To get started:**
+*   Download `ObsidianSetup.ps1` from `internal/project_documentation/`.
+*   Right-click the downloaded file and select "Run with PowerShell".
+*   Follow the on-screen prompts.
+
+**For detailed instructions and troubleshooting**, please refer to the guide:
 `internal/project_documentation/ContentRepoSetup.md`
 
 ### Technical Users (Git Familiar)
-
-1.  **Clone the main website repository:**
-    ```bash
-    git clone https://github.com/ks-sbc/ksbc-website.git
-    cd ksbc-website
-    ```
-2.  **Initialize and update submodules:** This command will clone this `content` repository and attempt to clone the nested `cadres` and `members` submodules (if you have access).
-    ```bash
-    git submodule update --init --recursive
-    ```
-    *Note: If you lack access to `cadres` or `members`, Git will show an error for those specific submodules, but the rest of the `content` repository will still be cloned correctly.*
 
 ## Syncing Changes
 
