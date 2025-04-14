@@ -35,3 +35,4 @@ internal/assets/
 
 # Exclude from ignoring
 !internal/project_documentation/
+*.code-workspace

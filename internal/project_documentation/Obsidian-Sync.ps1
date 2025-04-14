@@ -11,9 +11,7 @@ function Write-ColorOutput($ForegroundColor) {
     $fc = $host.UI.RawUI.ForegroundColor
     $host.UI.RawUI.ForegroundColor = $ForegroundColor
     if ($args) {
-        Write-Output $argsWe can initialize and clone the appropriate Git repos inside of the users My Documents folder.
-
-        So I want you to add functions taht will:
+        Write-Output $args
     }
     else {
         $input | Write-Output
@@ -47,23 +45,11 @@ function Check-GitHubCredentials {
         Write-ColorOutput Yellow "GitHub credentials not found or invalid."
         Write-ColorOutput Yellow "Setting up Git credentials..."
         
-        $username = Read-Host "Enter your GitHub username"
-        $securePassword = Read-Host "Enter your GitHub personal access token" -AsSecureString
-        $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword)
-        $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+        # Configure Git to use Git Credential Manager
+        git config --global credential.helper manager-core
         
-        # Configure credential manager
-        git config --global credential.helper store
-        
-        # Store credentials (this will be used in the next git operation)
-        $cred = "${username}:${password}"
-        $encodedCred = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($cred))
-        
-        # Test authentication again
-        $env:GIT_ASKPASS = "echo"
-        $env:GIT_USERNAME = $username
-        $env:GIT_PASSWORD = $password
-        
+        # This will trigger the credential prompt from Git Credential Manager
+        Write-ColorOutput Yellow "You'll be prompted to authenticate with GitHub..."
         $output = git ls-remote --quiet $RepoUrl 2>&1
         
         if ($LASTEXITCODE -eq 0) {
@@ -120,7 +106,7 @@ function Sync-Repository {
         [string]$RepoName
     )
     
-    Write-ColorOutput Green "`n>>> Syncing $RepoName..."
+    Write-ColorOutput Green ">>> Syncing $RepoName..."
     
     Push-Location $RepoPath
     
@@ -219,7 +205,7 @@ try {
     $contentChanges = Sync-Repository -RepoPath "." -RepoName "content repository"
     
     # Summary
-    Write-Output "`n===== Sync Summary ====="
+    Write-Output "===== Sync Summary ====="
     if ($cadresChanges -or $membersChanges -or $contentChanges) {
         Write-ColorOutput Green "✓ Changes synchronized successfully!"
     }
@@ -227,13 +213,13 @@ try {
         Write-ColorOutput Cyan "✓ Everything is up to date. No changes to sync."
     }
     
-    Write-Output "`nPress any key to exit..."
+    Write-Output "Press any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 catch {
     Write-ColorOutput Red "❌ An error occurred during sync:"
     Write-ColorOutput Red $_.Exception.Message
-    Write-Output "`nPress any key to exit..."
+    Write-Output "Press any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
 }
