@@ -1,21 +1,8 @@
 # Obsidian-Sync.ps1 - Sync script for Obsidian users
 # Save this file in your content folder (Obsidian vault)
 
-# Text formatting
-$Host.UI.RawUI.WindowTitle = "KSBC Content Sync"
+# Configuration
 $MainBranch = "main" # Change if your default branch is different
-
-function Write-ColorOutput($ForegroundColor) {
-    $fc = $host.UI.RawUI.ForegroundColor
-    $host.UI.RawUI.ForegroundColor = $ForegroundColor
-    if ($args) {
-        Write-Output $args
-    }
-    else {
-        $input | Write-Output
-    }
-    $host.UI.RawUI.ForegroundColor = $fc
-}
 
 function Sync-Repository {
     param (
@@ -23,24 +10,24 @@ function Sync-Repository {
         [string]$RepoName
     )
     
-    Write-ColorOutput Green "`n>>> Syncing $RepoName..."
+    Write-Output "`n>>> Syncing $RepoName..."
     
     Push-Location $RepoPath
     
     # Check if we're in detached HEAD state
-    $headRef = git symbolic-ref -q HEAD
+    git symbolic-ref -q HEAD > $null
     if ($LASTEXITCODE -ne 0) {
-        Write-ColorOutput Yellow "⚠️ Detached HEAD state detected. Checking out $MainBranch branch..."
+        Write-Output "WARNING: Detached HEAD state detected. Checking out $MainBranch branch..."
         git checkout $MainBranch
         if ($LASTEXITCODE -ne 0) {
-            Write-ColorOutput Yellow "⚠️ Couldn't check out $MainBranch, determining default branch..."
+            Write-Output "WARNING: Couldn't check out $MainBranch, determining default branch..."
             $defaultBranch = (git remote show origin | Select-String "HEAD branch").ToString().Split(":")[1].Trim()
-            Write-ColorOutput Yellow "Detected default branch: $defaultBranch"
+            Write-Output "Detected default branch: $defaultBranch"
             git checkout $defaultBranch
         }
     }
     else {
-        Write-Output "✓ Already on a branch"
+        Write-Output "Already on a branch"
     }
     
     # Pull latest changes
@@ -48,7 +35,7 @@ function Sync-Repository {
     $currentBranch = (git branch --show-current)
     git pull origin $currentBranch
     if ($LASTEXITCODE -ne 0) {
-        Write-ColorOutput Yellow "⚠️ Pull failed, continuing with local changes"
+        Write-Output "WARNING: Pull failed, continuing with local changes"
     }
     
     # Check for changes
@@ -65,11 +52,11 @@ function Sync-Repository {
         else {
             git push origin $currentBranch
             if ($LASTEXITCODE -ne 0) {
-                Write-ColorOutput Yellow "⚠️ Push failed. Changes committed locally but not pushed to remote."
-                Write-ColorOutput Yellow "   Please contact the repository administrator for assistance."
+                Write-Output "WARNING: Push failed. Changes committed locally but not pushed to remote."
+                Write-Output "         Please contact the repository administrator for assistance."
             }
             else {
-                Write-ColorOutput Green "✓ Changes pushed successfully!"
+                Write-Output "Changes pushed successfully!"
             }
         }
     }
@@ -82,9 +69,8 @@ function Sync-Repository {
 }
 
 try {
-    Clear-Host
-    Write-ColorOutput Cyan "===== KSBC Obsidian Content Sync Tool ====="
-    Write-ColorOutput Cyan "This tool will sync your Obsidian changes to the KSBC website."
+    Write-Output "===== KSBC Obsidian Content Sync Tool ====="
+    Write-Output "This tool will sync your Obsidian changes to the KSBC website."
     Write-Output ""
     
     # Remember our starting position
@@ -92,7 +78,7 @@ try {
     
     # Check that we're in the content folder
     if (-not (Test-Path ".git")) {
-        Write-ColorOutput Red "❌ Error: Not in a git repository. Please run this script from your Obsidian vault folder."
+        Write-Output "ERROR: Not in a git repository. Please run this script from your Obsidian vault folder."
         exit 1
     }
     
@@ -101,8 +87,8 @@ try {
         git --version | Out-Null
     }
     catch {
-        Write-ColorOutput Red "❌ Error: Git not found. Please install Git for Windows."
-        Write-ColorOutput Yellow "Download from: https://git-scm.com/download/win"
+        Write-Output "ERROR: Git not found. Please install Git for Windows."
+        Write-Output "Download from: https://git-scm.com/download/win"
         exit 1
     }
     
@@ -125,18 +111,18 @@ try {
     # Summary
     Write-Output "`n===== Sync Summary ====="
     if ($cadresChanges -or $membersChanges -or $contentChanges) {
-        Write-ColorOutput Green "✓ Changes synchronized successfully!"
+        Write-Output "Changes synchronized successfully!"
     }
     else {
-        Write-ColorOutput Cyan "✓ Everything is up to date. No changes to sync."
+        Write-Output "Everything is up to date. No changes to sync."
     }
     
     Write-Output "`nPress any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 catch {
-    Write-ColorOutput Red "❌ An error occurred during sync:"
-    Write-ColorOutput Red $_.Exception.Message
+    Write-Output "ERROR: An error occurred during sync:"
+    Write-Output $_.Exception.Message
     Write-Output "`nPress any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
