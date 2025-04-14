@@ -1,8 +1,21 @@
 # Obsidian-Sync.ps1 - Sync script for Obsidian users
-# This script will set up and sync your Obsidian vault with the KSBC GitHub repository
+# Save this file in your content folder (Obsidian vault)
 
-# Configuration
+# Text formatting
+$Host.UI.RawUI.WindowTitle = "KSBC Content Sync"
 $MainBranch = "main" # Change if your default branch is different
+
+function Write-ColorOutput($ForegroundColor) {
+    $fc = $host.UI.RawUI.ForegroundColor
+    $host.UI.RawUI.ForegroundColor = $ForegroundColor
+    if ($args) {
+        Write-Output $args
+    }
+    else {
+        $input | Write-Output
+    }
+    $host.UI.RawUI.ForegroundColor = $fc
+}
 
 function Sync-Repository {
     param (
@@ -10,24 +23,24 @@ function Sync-Repository {
         [string]$RepoName
     )
     
-    Write-Output "`n>>> Syncing $RepoName..."
+    Write-ColorOutput Green "`n>>> Syncing $RepoName..."
     
     Push-Location $RepoPath
     
     # Check if we're in detached HEAD state
-    git symbolic-ref -q HEAD > $null
+    $headRef = git symbolic-ref -q HEAD
     if ($LASTEXITCODE -ne 0) {
-        Write-Output "WARNING: Detached HEAD state detected. Checking out $MainBranch branch..."
+        Write-ColorOutput Yellow "⚠️ Detached HEAD state detected. Checking out $MainBranch branch..."
         git checkout $MainBranch
         if ($LASTEXITCODE -ne 0) {
-            Write-Output "WARNING: Couldn't check out $MainBranch, determining default branch..."
+            Write-ColorOutput Yellow "⚠️ Couldn't check out $MainBranch, determining default branch..."
             $defaultBranch = (git remote show origin | Select-String "HEAD branch").ToString().Split(":")[1].Trim()
-            Write-Output "Detected default branch: $defaultBranch"
+            Write-ColorOutput Yellow "Detected default branch: $defaultBranch"
             git checkout $defaultBranch
         }
     }
     else {
-        Write-Output "Already on a branch"
+        Write-Output "✓ Already on a branch"
     }
     
     # Pull latest changes
@@ -35,7 +48,7 @@ function Sync-Repository {
     $currentBranch = (git branch --show-current)
     git pull origin $currentBranch
     if ($LASTEXITCODE -ne 0) {
-        Write-Output "WARNING: Pull failed, continuing with local changes"
+        Write-ColorOutput Yellow "⚠️ Pull failed, continuing with local changes"
     }
     
     # Check for changes
@@ -52,11 +65,11 @@ function Sync-Repository {
         else {
             git push origin $currentBranch
             if ($LASTEXITCODE -ne 0) {
-                Write-Output "WARNING: Push failed. Changes committed locally but not pushed to remote."
-                Write-Output "         Please contact the repository administrator for assistance."
+                Write-ColorOutput Yellow "⚠️ Push failed. Changes committed locally but not pushed to remote."
+                Write-ColorOutput Yellow "   Please contact the repository administrator for assistance."
             }
             else {
-                Write-Output "Changes pushed successfully!"
+                Write-ColorOutput Green "✓ Changes pushed successfully!"
             }
         }
     }
@@ -69,8 +82,9 @@ function Sync-Repository {
 }
 
 try {
-    Write-Output "===== KSBC Obsidian Content Sync Tool ====="
-    Write-Output "This tool will sync your Obsidian changes to the KSBC website."
+    Clear-Host
+    Write-ColorOutput Cyan "===== KSBC Obsidian Content Sync Tool ====="
+    Write-ColorOutput Cyan "This tool will sync your Obsidian changes to the KSBC website."
     Write-Output ""
     
     # Remember our starting position
@@ -78,22 +92,19 @@ try {
     
     # Check that we're in the content folder
     if (-not (Test-Path ".git")) {
-        Write-Output "ERROR: Not in a git repository. Please run this script from your Obsidian vault folder."
+        Write-ColorOutput Red "❌ Error: Not in a git repository. Please run this script from your Obsidian vault folder."
         exit 1
     }
     
-    # Check GitHub credentials
-    if (-not (Check-GitHubCredentials)) {
-        exit 1
+    # Check for git
+    try {
+        git --version | Out-Null
     }
     catch {
-        Write-Output "ERROR: Git not found. Please install Git for Windows."
-        Write-Output "Download from: https://git-scm.com/download/win"
+        Write-ColorOutput Red "❌ Error: Git not found. Please install Git for Windows."
+        Write-ColorOutput Yellow "Download from: https://git-scm.com/download/win"
         exit 1
     }
-    
-    # Remember our starting position
-    $contentRoot = Get-Location
     
     # 1. First check and sync the cadres submodule if it exists
     $cadresChanges = $false
@@ -112,20 +123,20 @@ try {
     $contentChanges = Sync-Repository -RepoPath "." -RepoName "content repository"
     
     # Summary
-    Write-Output "===== Sync Summary ====="
+    Write-Output "`n===== Sync Summary ====="
     if ($cadresChanges -or $membersChanges -or $contentChanges) {
-        Write-Output "Changes synchronized successfully!"
+        Write-ColorOutput Green "✓ Changes synchronized successfully!"
     }
     else {
-        Write-Output "Everything is up to date. No changes to sync."
+        Write-ColorOutput Cyan "✓ Everything is up to date. No changes to sync."
     }
     
-    Write-Output "Press any key to exit..."
+    Write-Output "`nPress any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 catch {
-    Write-Output "ERROR: An error occurred during sync:"
-    Write-Output $_.Exception.Message
+    Write-ColorOutput Red "❌ An error occurred during sync:"
+    Write-ColorOutput Red $_.Exception.Message
     Write-Output "`nPress any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1

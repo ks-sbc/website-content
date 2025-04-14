@@ -1,10 +1,22 @@
 # Obsidian-Setup.ps1 - Initial setup script for KSBC Content repository
 # For Windows users who just need the content folder for Obsidian
 
-# Configuration
+# Text formatting
+$Host.UI.RawUI.WindowTitle = "KSBC Content Setup"
 $MainBranch = "main" # Change if your default branch is different
 $ContentRepoURL = "https://github.com/ks-sbc/website-content.git" # Update with your content repo URL
 
+function Write-ColorOutput($ForegroundColor) {
+    $fc = $host.UI.RawUI.ForegroundColor
+    $host.UI.RawUI.ForegroundColor = $ForegroundColor
+    if ($args) {
+        Write-Output $args
+    }
+    else {
+        $input | Write-Output
+    }
+    $host.UI.RawUI.ForegroundColor = $fc
+}
 
 function CheckCommand {
     param (
@@ -14,12 +26,12 @@ function CheckCommand {
     
     try {
         Invoke-Expression "$Command" | Out-Null
-        Write-Output "$Command is installed"
+        Write-ColorOutput Green "✓ $Command is installed"
         return $true
     }
     catch {
-        Write-Output "ERROR: $Command is not installed."
-        Write-Output $InstallInstructions
+        Write-ColorOutput Red "❌ $Command is not installed."
+        Write-ColorOutput Yellow $InstallInstructions
         return $false
     }
 }
@@ -30,24 +42,24 @@ function SetupRepository {
         [string]$RepoName
     )
     
-    Write-Output ">>> Setting up $RepoName..."
+    Write-ColorOutput Green "`n>>> Setting up $RepoName..."
     
     Push-Location $RepoPath
     
     # Check if we're in detached HEAD state
-    git symbolic-ref -q HEAD > $null
+    $headRef = git symbolic-ref -q HEAD
     if ($LASTEXITCODE -ne 0) {
-        Write-Output "WARNING: Detached HEAD state detected. Checking out $MainBranch branch..."
+        Write-ColorOutput Yellow "⚠️ Detached HEAD state detected. Checking out $MainBranch branch..."
         git checkout $MainBranch
         if ($LASTEXITCODE -ne 0) {
-            Write-Output "WARNING: Couldn't check out $MainBranch, determining default branch..."
+            Write-ColorOutput Yellow "⚠️ Couldn't check out $MainBranch, determining default branch..."
             $defaultBranch = (git remote show origin | Select-String "HEAD branch").ToString().Split(":")[1].Trim()
-            Write-Output "Detected default branch: $defaultBranch"
+            Write-ColorOutput Yellow "Detected default branch: $defaultBranch"
             git checkout $defaultBranch
         }
     }
     else {
-        Write-Output "Already on a branch"
+        Write-Output "✓ Already on a branch"
     }
     
     # Configure git settings
@@ -58,15 +70,17 @@ function SetupRepository {
 }
 
 try {
-    Write-Output "===== KSBC Obsidian Content Setup Tool ====="
-    Write-Output "This tool will set up the KSBC content repository for use with Obsidian."
+    Clear-Host
+    Write-ColorOutput Cyan "===== KSBC Obsidian Content Setup Tool ====="
+    Write-ColorOutput Cyan "This tool will set up the KSBC content repository for use with Obsidian."
+    Write-Output ""
     
     # Check for prerequisites
     Write-Output "Checking prerequisites..."
     $gitInstalled = CheckCommand -Command "git --version" -InstallInstructions "Please install Git for Windows from: https://git-scm.com/download/win"
     if (-not $gitInstalled) {
-        Write-Output "Required tool missing. Please install it and run this script again."
-        Write-Output "Press any key to exit..."
+        Write-ColorOutput Red "Required tool missing. Please install it and run this script again."
+        Write-Output "`nPress any key to exit..."
         $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
         exit 1
     }
@@ -86,32 +100,16 @@ try {
     }
     
     # Clone the content repository
-    Write-Output ">>> Cloning content repository..."
+    Write-ColorOutput Green "`n>>> Cloning content repository..."
     Set-Location $targetDir
-    
-    # Check if directory is empty (excluding hidden files/directories)
-    $existingFiles = Get-ChildItem -Path $targetDir -Force | Where-Object { $_.Name -ne '.git' }
-    if ($existingFiles.Count -gt 0 -and -not (Test-Path (Join-Path -Path $targetDir -ChildPath ".git"))) {
-        Write-Output "WARNING: Target directory is not empty. Please choose an empty directory for the repository."
-        Write-Output "Press any key to exit..."
-        $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    git clone $ContentRepoURL .
+    if ($LASTEXITCODE -ne 0) {
+        Write-ColorOutput Red "❌ Failed to clone repository. Please check the URL and your internet connection."
         exit 1
     }
     
-    # Check if it's already a git repository
-    if (Test-Path (Join-Path -Path $targetDir -ChildPath ".git")) {
-        Write-Output "Repository already exists at $targetDir"
-        git pull
-    } else {
-        git clone $ContentRepoURL .
-        if ($LASTEXITCODE -ne 0) {
-            Write-Output "ERROR: Failed to clone repository. Please check the URL and your internet connection."
-            exit 1
-        }
-    }
-    
     # Initialize submodules
-    Write-Output ">>> Initializing submodules..."
+    Write-ColorOutput Green "`n>>> Initializing submodules..."
     git submodule init
     git submodule update
     
@@ -132,51 +130,51 @@ try {
     $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
     $syncScriptSource = Join-Path $scriptDir "Obsidian-Sync.ps1"
     if (Test-Path $syncScriptSource) {
-        Write-Output ">>> Copying sync script..."
+        Write-ColorOutput Green "`n>>> Copying sync script..."
         Copy-Item $syncScriptSource -Destination $targetDir
-        Write-Output "Sync script copied"
+        Write-Output "✓ Sync script copied"
     }
     else {
         # Create a simple sync script if the full one isn't available
-        Write-Output ">>> Creating basic sync script..."
+        Write-ColorOutput Yellow "`n>>> Creating basic sync script..."
         @"
 # Basic sync script for KSBC content
-Write-Output "Syncing KSBC content..."
+Write-Host "Syncing KSBC content..." -ForegroundColor Cyan
 git pull
 git add .
 git commit -m "Update $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 git push
-Write-Output "Done!"
+Write-Host "Done!" -ForegroundColor Green
 pause
 "@ | Out-File -FilePath (Join-Path $targetDir "Obsidian-Sync.ps1") -Encoding utf8
-        Write-Output "Basic sync script created"
+        Write-Output "✓ Basic sync script created"
     }
     
     # Create desktop shortcut for the sync script
-    Write-Output ">>> Creating desktop shortcut for sync script..."
+    Write-ColorOutput Green "`n>>> Creating desktop shortcut for sync script..."
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut("$env:USERPROFILE\Desktop\KSBC Content Sync.lnk")
     $Shortcut.TargetPath = "powershell.exe"
     $Shortcut.Arguments = "-ExecutionPolicy Bypass -File `"$targetDir\Obsidian-Sync.ps1`""
     $Shortcut.WorkingDirectory = $targetDir
     $Shortcut.Save()
-    Write-Output "Desktop shortcut created"
+    Write-Output "✓ Desktop shortcut created"
     
     # Success message and next steps
-    Write-Output "Setup complete!"
-    Write-Output "Next steps:"
+    Write-ColorOutput Green "`n✅ Setup complete!"
+    Write-Output "`nNext steps:"
     Write-Output "1. Open Obsidian"
     Write-Output "2. Click 'Open folder as vault'"
     Write-Output "3. Select this folder: $targetDir"
-    Write-Output "To sync your changes later, use the 'KSBC Content Sync' shortcut on your desktop."
+    Write-Output "`nTo sync your changes later, use the 'KSBC Content Sync' shortcut on your desktop."
     
-    Write-Output "Press any key to exit..."
+    Write-Output "`nPress any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 catch {
-    Write-Output "ERROR: An error occurred during setup:"
-    Write-Output $_.Exception.Message
-    Write-Output "Press any key to exit..."
+    Write-ColorOutput Red "❌ An error occurred during setup:"
+    Write-ColorOutput Red $_.Exception.Message
+    Write-Output "`nPress any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
 }
