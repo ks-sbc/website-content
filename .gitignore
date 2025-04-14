@@ -1,27 +1,37 @@
 # Obsidian configuration
 .obsidian/
-
-# Obsidian plugins (if you don't want to track them)
-.obsidian/plugins/
-
-# Obsidian workspace (changes frequently)
-.obsidian/workspace*
-
-# Temporary files
+.obsidian-git-data
 .trash/
+
+# Temporary content
+*.tmp
+*.temp
+*~
+
+# OS files
 .DS_Store
 Thumbs.db
-*.temp
-*.tmp
+
+# Special files that might contain sensitive information
+*.private.md
+*-private.md
+*.secret.*
+
+# Backup files
+*.bak
+*.backup
 
 # Private notes pattern (if you have a specific naming convention)
 *.private.md
 *-private
 
 # Drafts
+personal/
 drafts/
 
-# Personal notes
-personal/
-internal/
+# Only ignore specific internal directories
+internal/personal/
+internal/assets/
+
+# Exclude from ignoring
 !internal/project_documentation/
