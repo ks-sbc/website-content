@@ -1,5 +1,5 @@
 # Obsidian-Sync.ps1 - Sync script for Obsidian users
-# Save this file in your content folder (Obsidian vault)
+# This script will set up and sync your Obsidian vault with the KSBC GitHub repository
 
 # Configuration
 $MainBranch = "main" # Change if your default branch is different
@@ -82,15 +82,18 @@ try {
         exit 1
     }
     
-    # Check for git
-    try {
-        git --version | Out-Null
+    # Check GitHub credentials
+    if (-not (Check-GitHubCredentials)) {
+        exit 1
     }
     catch {
         Write-Output "ERROR: Git not found. Please install Git for Windows."
         Write-Output "Download from: https://git-scm.com/download/win"
         exit 1
     }
+    
+    # Remember our starting position
+    $contentRoot = Get-Location
     
     # 1. First check and sync the cadres submodule if it exists
     $cadresChanges = $false
@@ -109,7 +112,7 @@ try {
     $contentChanges = Sync-Repository -RepoPath "." -RepoName "content repository"
     
     # Summary
-    Write-Output "`n===== Sync Summary ====="
+    Write-Output "===== Sync Summary ====="
     if ($cadresChanges -or $membersChanges -or $contentChanges) {
         Write-Output "Changes synchronized successfully!"
     }
@@ -117,7 +120,7 @@ try {
         Write-Output "Everything is up to date. No changes to sync."
     }
     
-    Write-Output "`nPress any key to exit..."
+    Write-Output "Press any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 }
 catch {
