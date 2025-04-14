@@ -1,20 +1,117 @@
 # Obsidian-Sync.ps1 - Sync script for Obsidian users
-# Save this file in your content folder (Obsidian vault)
+# This script will set up and sync your Obsidian vault with the KSBC GitHub repository
 
-# Text formatting
+# Configuration
 $Host.UI.RawUI.WindowTitle = "KSBC Content Sync"
 $MainBranch = "main" # Change if your default branch is different
+$RepoUrl = "https://github.com/ks-sbc/website-content.git" # UPDATE THIS WITH YOUR ACTUAL REPOSITORY URL
+$ObsidianFolderName = "ksbc-obsidian"
 
 function Write-ColorOutput($ForegroundColor) {
     $fc = $host.UI.RawUI.ForegroundColor
     $host.UI.RawUI.ForegroundColor = $ForegroundColor
     if ($args) {
-        Write-Output $args
+        Write-Output $argsWe can initialize and clone the appropriate Git repos inside of the users My Documents folder.
+
+        So I want you to add functions taht will:
     }
     else {
         $input | Write-Output
     }
     $host.UI.RawUI.ForegroundColor = $fc
+}
+
+function Check-GitInstalled {
+    try {
+        git --version | Out-Null
+        return $true
+    }
+    catch {
+        Write-ColorOutput Red "❌ Error: Git not found. Please install Git for Windows."
+        Write-ColorOutput Yellow "Download from: https://git-scm.com/download/win"
+        return $false
+    }
+}
+
+function Check-GitHubCredentials {
+    Write-ColorOutput Cyan "Checking GitHub credentials..."
+    
+    # Test authentication by attempting a simple git operation
+    $output = git ls-remote --quiet $RepoUrl 2>&1
+    
+    if ($LASTEXITCODE -eq 0) {
+        Write-ColorOutput Green "✓ GitHub credentials verified!"
+        return $true
+    }
+    else {
+        Write-ColorOutput Yellow "GitHub credentials not found or invalid."
+        Write-ColorOutput Yellow "Setting up Git credentials..."
+        
+        $username = Read-Host "Enter your GitHub username"
+        $securePassword = Read-Host "Enter your GitHub personal access token" -AsSecureString
+        $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword)
+        $password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($bstr)
+        
+        # Configure credential manager
+        git config --global credential.helper store
+        
+        # Store credentials (this will be used in the next git operation)
+        $cred = "${username}:${password}"
+        $encodedCred = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($cred))
+        
+        # Test authentication again
+        $env:GIT_ASKPASS = "echo"
+        $env:GIT_USERNAME = $username
+        $env:GIT_PASSWORD = $password
+        
+        $output = git ls-remote --quiet $RepoUrl 2>&1
+        
+        if ($LASTEXITCODE -eq 0) {
+            Write-ColorOutput Green "✓ GitHub credentials set up successfully!"
+            return $true
+        }
+        else {
+            Write-ColorOutput Red "❌ Failed to authenticate with GitHub. Please check your credentials."
+            return $false
+        }
+    }
+}
+
+function Initialize-Repository {
+    # Get My Documents path
+    $myDocuments = [Environment]::GetFolderPath("MyDocuments")
+    $obsidianPath = Join-Path -Path $myDocuments -ChildPath $ObsidianFolderName
+    
+    Write-ColorOutput Cyan "Setting up Obsidian repository in $obsidianPath"
+    
+    # Create the directory if it doesn't exist
+    if (-not (Test-Path $obsidianPath)) {
+        Write-Output "Creating directory $obsidianPath..."
+        New-Item -ItemType Directory -Path $obsidianPath | Out-Null
+    }
+    
+    # Check if it's already a git repository
+    if (Test-Path (Join-Path -Path $obsidianPath -ChildPath ".git")) {
+        Write-ColorOutput Green "✓ Repository already exists at $obsidianPath"
+    }
+    else {
+        # Clone the repository
+        Write-Output "Cloning repository from $RepoUrl to $obsidianPath..."
+        Set-Location $myDocuments
+        git clone $RepoUrl $ObsidianFolderName
+        
+        if ($LASTEXITCODE -ne 0) {
+            Write-ColorOutput Red "❌ Failed to clone repository."
+            return $false
+        }
+        else {
+            Write-ColorOutput Green "✓ Repository cloned successfully!"
+        }
+    }
+    
+    # Set location to the repository
+    Set-Location $obsidianPath
+    return $true
 }
 
 function Sync-Repository {
@@ -84,27 +181,26 @@ function Sync-Repository {
 try {
     Clear-Host
     Write-ColorOutput Cyan "===== KSBC Obsidian Content Sync Tool ====="
-    Write-ColorOutput Cyan "This tool will sync your Obsidian changes to the KSBC website."
+    Write-ColorOutput Cyan "This tool will set up and sync your Obsidian vault with the KSBC GitHub repository."
     Write-Output ""
+    
+    # Check for git installation
+    if (-not (Check-GitInstalled)) {
+        exit 1
+    }
+    
+    # Check GitHub credentials
+    if (-not (Check-GitHubCredentials)) {
+        exit 1
+    }
+    
+    # Initialize repository
+    if (-not (Initialize-Repository)) {
+        exit 1
+    }
     
     # Remember our starting position
     $contentRoot = Get-Location
-    
-    # Check that we're in the content folder
-    if (-not (Test-Path ".git")) {
-        Write-ColorOutput Red "❌ Error: Not in a git repository. Please run this script from your Obsidian vault folder."
-        exit 1
-    }
-    
-    # Check for git
-    try {
-        git --version | Out-Null
-    }
-    catch {
-        Write-ColorOutput Red "❌ Error: Git not found. Please install Git for Windows."
-        Write-ColorOutput Yellow "Download from: https://git-scm.com/download/win"
-        exit 1
-    }
     
     # 1. First check and sync the cadres submodule if it exists
     $cadresChanges = $false
