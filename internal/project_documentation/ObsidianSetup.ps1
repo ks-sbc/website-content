@@ -51,8 +51,7 @@ function SetupRepository {
     }
     
     # Configure git settings
-    git config core.autocrlf true
-    git config core.fileMode false
+
     
     Pop-Location
 }
@@ -157,7 +156,7 @@ pause
     $WshShell = New-Object -ComObject WScript.Shell
     $Shortcut = $WshShell.CreateShortcut("$env:USERPROFILE\Desktop\KSBC Content Sync.lnk")
     $Shortcut.TargetPath = "powershell.exe"
-    $Shortcut.Arguments = "-ExecutionPolicy Bypass -File `"$targetDir\Obsidian-Sync.ps1`""
+    $Shortcut.Arguments = "-ExecutionPolicy Bypass -File `"$targetDir\Obsidian-Sync.ps1"
     $Shortcut.WorkingDirectory = $targetDir
     $Shortcut.Save()
     Write-Output "Desktop shortcut created"
@@ -179,4 +178,9 @@ catch {
     Write-Output "Press any key to exit..."
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
+}
+finally {
+    # Add this to existing finally block or create one if it doesn't exist
+    Write-ColorOutput Cyan "Log saved to: $LogPath"
+    Stop-Transcript
 }

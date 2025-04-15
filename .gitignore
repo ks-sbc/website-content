@@ -36,3 +36,6 @@ internal/assets/
 # Exclude from ignoring
 !internal/project_documentation/
 *.code-workspace
+.cursor
+.cursorignore
+_scripts/encrypt-docs.sh
