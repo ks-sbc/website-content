@@ -1,7 +1,9 @@
 ---
 draft: true
 ---
-# KSBC Website Content Repository
+# DRUIDS
+
+DRUIDS stands for Distributed RedUnion Interconnected Directory System. It is our way of hard-coding best security practices intot he digital infrastructure of the left, while also giving us scaffolding to grow.
 
 This repository serves as the central Obsidian vault for managing all content related to the Kansas Socialist Book Club (KSBC) website. It is structured to support a multi-tiered access model while providing a unified editing experience, primarily through Obsidian.
 
