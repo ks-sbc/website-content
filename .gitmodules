@@ -1,6 +1,0 @@
-[submodule "internal/cadres"]
-	path = internal/cadres
-	url = https://github.com/ks-sbc/cadre-repo.git
-[submodule "internal/members"]
-	path = internal/members
-	url = https://github.com/ks-sbc/member-repo.git

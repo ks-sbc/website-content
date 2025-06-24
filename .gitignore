@@ -1,8 +1,15 @@
 # Obsidian configuration
+.obsidian
 .obsidian/plugins
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian-git-data
+
+# symlinks
+_templates
+_scripts
+.obsidian
+
 
 # Temporary content
 *.tmp
