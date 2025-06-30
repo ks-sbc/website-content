@@ -1,38 +1,26 @@
 ---
-title: General Meeting Minutes - 2025-03-05
-security: 
-document_id: "INT-MIN-2025-002-L0"
-role: "Internal"
-type: "Minutes"
-sequence_number: "002"
-date_created: 2025-02-24
-date_changed: 2025-04-04
-draft: false
-version: "1.0.0"
-next_review: 2025-08-23
+document_id: INT-MIN-2025-055-L0
+title: General Meeting Minutes - 2025-02-24
+type: minutes
+security: L0
+version: 1.0.0
 date: 2025-02-24
-lastmod: 2025-02-24
-security_classification: "Public"
+status: approved
+author: Krona
+description: February 24, 2025 General Meeting minutes of the Kansas Socialist Book Club
 tags:
-  - attendance/gwen/meeting/present
-  - attendance/kate/meeting/general
-  - attendance/krona/meeting/present
-  - attendance/mrdipper/meeting/general
-  - attendance/nick/meeting/present
-  - attendance/persephone/meeting/present
-  - attendance/ray/meeting/absent
-  - attendance/tycharis/meeting/general
-  - function/meeting/chair/percy
-  - function/meeting/note_taker/krona
-  - role/secretary
-  - security/Public
-  - type/minutes/General
-aliases:
-  - General Meeting Minutes - 2025-03-05
-end_time: ""
-linter-yaml-title-alias: General Meeting Minutes - 2025-03-05
-location: ""
-start_time: ""
+  - minutes
+  - general-meeting
+  - attendance/gwen/present
+  - attendance/kate/present
+  - attendance/krona/present
+  - attendance/mrdipper/present
+  - attendance/nick/present
+  - attendance/persephone/present
+  - attendance/ray/absent
+  - attendance/tycharis/present
+  - chair/percy
+  - note-taker/krona
 ---
 
 # 1. Opening
@@ -97,9 +85,9 @@ Meeting is called to order by Persephone at 20:34
 
 - #TODO Anonymous form for submitting criticism with Cryptpad [#C]
 
-## 2.3 Committee Reports
+## 2.3 Branch Reports
 
-%% Brief updates from active committees %%
+%% Brief updates from active branches %%
 
 ### 2.3.1 Social Media SOP
 

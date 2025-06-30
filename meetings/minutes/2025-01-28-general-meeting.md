@@ -1,30 +1,23 @@
 ---
-title: "Attendees"
-date: 2025-02-14
-lastmod: 2025-03-06
-version: "0.1.0"
-next_review: 
-draft: false
+document_id: INT-MIN-2025-028-L0
+title: General Meeting Minutes - 2025-01-28
+type: minutes
+security: L0
+version: 1.0.0
+date: 2025-01-28
+status: approved
+author: Kansas Socialist Book Club
+description: January 28, 2025 General Meeting minutes of the Kansas Socialist Book Club
 tags:
-  - attendance/general_meeting/gwen
-  - attendance/general_meeting/krona
-  - attendance/general_meeting/nick
-  - attendance/general_meeting/percy
-  - attendance/general_meeting/ray
-  - general_meeting
-  - krona
-  - mhk
   - minutes
-  - percy
-authors: []
-approved_by: ""
-review_frequency: "6 months"
-aliases:
-  - Attendees
-description: January 28, 2025 General Meeting minutes of the Kansas Socialist Book Club.
-linter-yaml-title-alias: Attendees
+  - general-meeting
+  - mhk
+  - attendance/gwen
+  - attendance/krona
+  - attendance/nick
+  - attendance/percy
+  - attendance/ray
 permalink: minutes/general/012825
-security classification: 
 ---
 
 Meeting chaired by: #percy  

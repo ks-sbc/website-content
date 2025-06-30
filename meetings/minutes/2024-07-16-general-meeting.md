@@ -1,8 +1,16 @@
 ---
-description: July 16, 2024 General Meeting minutes of the Kansas Socialist Book Club.
+document_id: INT-MIN-2024-197-L0
+title: General Meeting Minutes - 2024-07-16
+type: minutes
+security: L0
+version: 1.0.0
+date: 2024-07-16
+status: approved
+author: Kansas Socialist Book Club
+description: July 16, 2024 General Meeting minutes of the Kansas Socialist Book Club
 tags:
   - minutes
-  - general_meeting
+  - general-meeting
   - mhk
 permalink: minutes/general/071624
 ---

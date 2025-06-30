@@ -1,10 +1,20 @@
 ---
-permalink: csc/18012025rally
+document_id: INT-RPT-2025-018-L0
+title: Criticism and Self-Criticism of Topeka State Capitol Rally
+type: report
+security: L0
+version: 1.0.0
+date: 2025-01-18
+status: approved
+author: Persephone
 description: Our criticism and self-criticism for when we turned out at the rally on the steps of the state capitol in January 2025
 tags:
-  - csc
+  - report
+  - self-criticism
   - rally
-  - summation
+  - topeka
+  - state-capitol
+permalink: csc/18012025rally
 ---
 # Criticism and Self-Criticism of our participation in the Topeka State Capitol Rally on January 18, 2025
 
