@@ -1,10 +1,18 @@
 ---
+document_id: INT-MIN-2024-268-L0
+title: General Meeting Minutes - 2024-09-25
+type: minutes
+security: L0
+version: 1.0.0
+date: 2024-09-25
+status: approved
+author: Kansas Socialist Book Club
 description: Business Meeting minutes for the September 25, 2024 meeting of KS-SBC
-permalink: minutes/general/092524
 tags:
-  - general_meeting
   - minutes
+  - general-meeting
   - mhk
+permalink: minutes/general/092524
 ---
 
 # Attendees

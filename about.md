@@ -1,5 +1,18 @@
 ---
-description: A self-criticism of the previous iteration of the Kansas Socialist Book Club by its organizers. Additionally, the Organizers propose as path forward to correct these errors and continue on a revolutionary path forward
+document_id: INT-RPT-2025-180A-L0
+title: On Scientific Socialism and Organizing
+type: report
+security: L0
+version: 1.0.0
+date: 2025-06-29
+status: approved
+author: Kansas Socialist Book Club Organizers
+description: A self-criticism of the previous iteration of the Kansas Socialist Book Club by its organizers. Additionally, the Organizers propose a path forward to correct these errors and continue on a revolutionary path forward
+tags:
+  - report
+  - self-criticism
+  - organizational-development
+  - scientific-socialism
 permalink: about
 ---
 # On Scientific Socialism and Organizing

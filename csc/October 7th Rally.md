@@ -1,6 +1,20 @@
 ---
+document_id: INT-RPT-2024-280-L0
+title: Self-Criticism of October 7th Palestine Solidarity Event
+type: report
+security: L0
+version: 1.0.0
+date: 2024-10-07
+status: approved
+author: Kansas Socialist Book Club
+description: A criticism/self criticism of an event organized on October 7 for Palestinian Liberation
+tags:
+  - report
+  - self-criticism
+  - palestine
+  - event
+  - lawrence
 permalink: csc/07102024rally
-description: A criticism/self criticism of an event organized on October 7
 ---
 # Self-Criticism of our October 7 Event 
 

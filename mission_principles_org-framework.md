@@ -1,3 +1,21 @@
+---
+document_id: INT-DCT-2025-180-L0
+title: Mission, Principles, and Organizational Framework
+type: doctrine
+security: L0
+version: 1.0.0
+date: 2025-06-29
+status: approved
+author: Kansas Socialist Book Club
+description: Core theoretical foundation, principles, and organizational structure of the Kansas Socialist Book Club
+tags:
+  - doctrine
+  - mission
+  - principles
+  - organizational-framework
+  - decolonial-marxism
+---
+
 # Mission, Principles, and Organizational Framework
 
 The Kansas Socialist Book Club (KSBC) is dedicated to the study and application of Decolonial Marxism. We approach revolutionary theory not as an academic exercise, but as a guide to action for changing society. Our organization draws particularly from the experiences of the Bolsheviks and the Communist Party of China during the Maoist period, while maintaining special emphasis on the study of contemporary national liberation movements - especially those on the periphery of empire.

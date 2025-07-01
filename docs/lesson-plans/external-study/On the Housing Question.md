@@ -1,3 +1,21 @@
+---
+document_id: EXT-REF-2025-180A-L0
+title: "Study Guide: Engels' On the Housing Question"
+type: reference
+security: L0
+version: 1.0.0
+date: 2025-06-29
+status: approved
+author: Kansas Socialist Book Club
+description: Study guide and discussion questions for Engels' On the Housing Question, focusing on the housing crisis and class relations
+tags:
+  - lesson-plan
+  - engels
+  - housing
+  - marxism
+  - study-guide
+---
+
 # Section 1 - A Response to Proudhon
 ## Summation of Main Points
 * Pierre Joseph-Proudhon was a French intellectual, anarchist, and idealistic socialist who lived at the same time as Marx and Engels. He represented a very popular strain of thought and was well-regarded across Europe as one of the leading thinks of socialism. As we see in this essay, Engels thoroughly discredits Proudhon and shows us the error of idealism in his thinking. In order to spread the correctness of the ideas of scientific socialism, Marx and Engels had to spend time debating and debunking those theories that did not correlate to reality.

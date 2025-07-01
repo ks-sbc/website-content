@@ -1,6 +1,19 @@
 ---
-permalink: csc/02082025rally
+document_id: INT-RPT-2025-039-L0
+title: Self Criticism of Luigi Mangione Rally
+type: report
+security: L0
+version: 1.0.0
+date: 2025-02-08
+status: approved
+author: Persephone and Gwen
 description: Criticism and self criticism of the solidarity rally for Luigi Mangione in Manhattan
+tags:
+  - report
+  - self-criticism
+  - rally
+  - manhattan
+permalink: csc/02082025rally
 ---
 # Self Criticism of Luigi Mangione Rally
 ## By Persephone and Gwen

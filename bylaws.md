@@ -1,8 +1,19 @@
 ---
-cover: images/book_club/book club logo.jpg
+document_id: INT-POL-2025-180-L0
+title: Official Bylaws of the Kansas Socialist Book Club
+type: policy
+security: L0
+version: 2.0.0
+date: 2024-12-28
+status: approved
+author: Kansas Socialist Book Club
 description: The most up-to-date copy of the Bylaws that govern the Kansas Socialist Book Club as well as all subsidiary Branches
+tags:
+  - governance
+  - bylaws
+  - policy
+cover: images/book_club/book club logo.jpg
 permalink: bylaws
-version: "2"
 ---
 # ***Official Bylaws of the Kansas Socialist Book Club***
 

@@ -1,8 +1,16 @@
 ---
-description: December 28, 2024 General Meeting minutes of the Kansas Socialist Book Club.
+document_id: INT-MIN-2024-362-L0
+title: General Meeting Minutes - 2024-12-28
+type: minutes
+security: L0
+version: 1.0.0
+date: 2024-12-28
+status: approved
+author: Kansas Socialist Book Club
+description: December 28, 2024 General Meeting minutes of the Kansas Socialist Book Club
 tags:
   - minutes
-  - general_meeting
+  - general-meeting
   - mhk
 permalink: minutes/general/122824
 ---

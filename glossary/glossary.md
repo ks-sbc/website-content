@@ -1,18 +1,18 @@
 ---
-title: "A-M"
+document_id: INT-GLS-2025-180-L0
+title: "Glossary of Marxist Terminology (A-M)"
+type: glossary
+security: L0
+version: 1.0.0
 date: 2025-01-22
-lastmod: 2025-02-15
-version: "0.1.0"
-next_review: 
-draft: false
-tags: []
-authors: []
-approved_by: ""
-review_frequency: "6 months"
-aliases:
-  - A-M
-linter-yaml-title-alias: A-M
-security classification: 
+status: approved
+author: Kansas Socialist Book Club
+description: Educational glossary of Marxist terminology covering entries A through M
+tags:
+  - glossary
+  - marxism
+  - terminology
+  - education
 ---
 
 As a service we wish to maintain our own Glossary of Marxist Terminology. We firstly hope this may be an educational tool. Secondly, as a formal organization, we need to be specific about what we mean. Therefore, when we use a phrase we seek to define it!

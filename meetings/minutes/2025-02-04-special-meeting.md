@@ -1,29 +1,23 @@
 ---
-title: "SPECIAL MEETING: Labor Requirement"
-date: 2025-02-14
-lastmod: 2025-04-04
-version: "0.1.0"
-next_review: 
-draft: false
+document_id: INT-MIN-2025-035-L0
+title: "Special Meeting Minutes - Labor Requirement"
+type: minutes
+security: L0
+version: 1.0.0
+date: 2025-02-04
+status: approved
+author: Kansas Socialist Book Club
+description: February 04, 2025 Special Meeting minutes of the Kansas Socialist Book Club on the subject of the labor requirement
 tags:
-  - attendance/special_meeting/gwen
-  - attendance/special_meeting/krona
-  - attendance/special_meeting/nick
-  - attendance/special_meeting/percy
-  - attendance/special_meeting/ray
-  - krona
   - minutes
-  - percy
-  - special_meeting
-authors: []
-approved_by: ""
-review_frequency: "6 months"
-aliases:
-  - "SPECIAL MEETING: Labor Requirement"
-description: February 04, 2025 Special Meeting minutes of the Kansas Socialist Book Club. On the subject of the labor requirement
-linter-yaml-title-alias: "SPECIAL MEETING: Labor Requirement"
+  - special-meeting
+  - labor-requirement
+  - attendance/gwen
+  - attendance/krona
+  - attendance/nick
+  - attendance/percy
+  - attendance/ray
 permalink: minutes/special/020425_labor_requirements
-security classification: 
 ---
 
 # SPECIAL MEETING: Labor Requirement

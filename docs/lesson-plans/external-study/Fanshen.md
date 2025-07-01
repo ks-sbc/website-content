@@ -1,3 +1,21 @@
+---
+document_id: EXT-REF-2025-180-L0
+title: Fanshen Study Guide - Chapters 13-14
+type: reference
+security: L0
+version: 1.0.0
+date: 2025-06-29
+status: approved
+author: Kansas Socialist Book Club
+description: Study guide and discussion questions for William Hinton's Fanshen, focusing on class consciousness and land reform
+tags:
+  - lesson-plan
+  - fanshen
+  - chinese-revolution
+  - land-reform
+  - study-guide
+---
+
 Chapter 13
 1. **Educational Shift Toward Class Consciousness**: In January 1946, young revolutionary cadres attended a meeting aimed at fostering a deep understanding of class dynamics. Discussions addressed fundamental issues like why the poor remained poor while the rich prospered, and whether it was justifiable to pay rent to landlords. These conversations built a foundation for questioning and ultimately challenging feudal practices.
 
